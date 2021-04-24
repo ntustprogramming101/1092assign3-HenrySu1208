@@ -11,11 +11,23 @@ PImage title, gameover, startNormal, startHovered, restartNormal, restartHovered
 PImage bg, soil0, soil1, soil2, soil3, soil4, soil5, stone1, stone2, life;
 PImage groundhog, groundhogDown, groundhogLeft, groundhogRight;
 
+float cameraMoveY = 0;
 float block = 80;
 float blockAccount = 8;
 float wholeSeg = 24;
 float groundhogX = block*4;
 float groundhogY = block;
+
+//Moves Setting reference
+float groundhogSpeed = 4;
+float groundhogWidth = 80;
+float groundhogHeight = 80;
+int down = 0;
+int right = 0;
+int left = 0;
+float step = 80.0;
+int frames = 15;
+
 boolean upPressed = false;
 boolean downPressed = false;
 boolean rightPressed = false;
@@ -26,8 +38,6 @@ boolean leftPressed = false;
 // For debug function; DO NOT edit or remove this!
 int playerHealth = 0;
 float cameraOffsetY = 0;
-float cameraMoveY = 0;
-
 boolean debugMode = false;
 
 void setup() {
@@ -68,9 +78,6 @@ void draw() {
   }
   /* ------ End of Debug Function ------ */
 
-  pushMatrix();
-  translate(0, cameraMoveY);
-
   switch (gameState) {
 
   case GAME_START: // Start Screen
@@ -93,7 +100,6 @@ void draw() {
     break;
 
   case GAME_RUN: // In-Game
-
     // Background
     image(bg, 0, 0);
 
@@ -102,6 +108,8 @@ void draw() {
     strokeWeight(5);
     fill(253, 184, 19);
     ellipse(590, 50, 120, 120);
+    pushMatrix();
+    translate(0, cameraMoveY);
 
     // Grass
     fill(124, 204, 25);
@@ -162,8 +170,47 @@ void draw() {
     }
 
     // Player
-    image(groundhog, groundhogX, groundhogY);
+    if (down > 0) {
+      if (down == 1) {
+        groundhogY = round(groundhogY + step/frames);
+        image(groundhog, groundhogX, groundhogY);
+      } else {
+        groundhogY = groundhogY + step/frames;
+        image(groundhogDown, groundhogX, groundhogY);
+      }
+      down -=1;
+    }
 
+    //left
+    if (left > 0) {
+      if (left == 1) {
+        groundhogX = round(groundhogX - step/frames);
+        image(groundhog, groundhogX, groundhogY);
+      } else {
+        groundhogX = groundhogX - step/frames;
+        image(groundhogLeft, groundhogX, groundhogY);
+      }
+      left -=1;
+    }
+
+    //right
+    if (right > 0) {
+      if (right == 1) {
+        groundhogX = round(groundhogX + step/frames);
+        image(groundhog, groundhogX, groundhogY);
+      } else {
+        groundhogX = groundhogX + step/frames;
+        image(groundhogRight, groundhogX, groundhogY);
+      }
+      right -=1;
+    }
+
+    //no move
+    if (down == 0 && left == 0 && right == 0 ) {
+      image(groundhog, groundhogX, groundhogY);
+    }
+    //image(groundhog, groundhogX, groundhogY);
+    popMatrix();
     // Health UI
     for (int x = 0; x < lifeNum; x++) {
       image(life, 10 + x*70, 10);
@@ -190,8 +237,6 @@ void draw() {
     }
     break;
   }
-
-  popMatrix();
   // DO NOT REMOVE OR EDIT THE FOLLOWING 3 LINES
   if (debugMode) {
     popMatrix();
@@ -200,21 +245,35 @@ void draw() {
 
 void keyPressed() {
   // Add your moving input code here
-  switch(keyCode) {
-  case UP:
-    upPressed = true;
-    break;
-  case DOWN:
-    downPressed = true;
-    //cameraMoveY -= 25;
-    break;
-  case RIGHT:
-    rightPressed = true;
-    break;
-  case LEFT:
-    leftPressed = true;
-    break;
+  if (down>0 || left>0 || right>0) {
+    return;
   }
+  if (key == CODED) {
+    switch(keyCode) {
+    case DOWN:
+      if (groundhogY < block*25) {
+        downPressed = true;
+        if (groundhogY<21*block) {
+          cameraMoveY -=80;
+        }
+        down = 15;
+      }
+      break;
+    case LEFT:
+      if (groundhogX > 0) {
+        leftPressed = true;
+        left = 15;
+      }
+      break;
+    case RIGHT:
+      if (groundhogX < 560) {
+        rightPressed = true;
+        right = 15;
+      }
+      break;
+    }
+  }
+
 
   // DO NOT REMOVE OR EDIT THE FOLLOWING SWITCH/CASES
   switch(key) {
@@ -239,9 +298,18 @@ void keyPressed() {
 }
 
 void keyReleased() {
-  switch(keyCode) {
-  case DOWN:
-    downPressed = false;
-    break;
+  if (key == CODED) {
+    switch(keyCode) {
+    case DOWN:
+      downPressed = false;
+      break;
+    case LEFT:
+      leftPressed = false;
+      break;
+    case RIGHT:
+      rightPressed = false;
+      break;
+    }
   }
 }
+
