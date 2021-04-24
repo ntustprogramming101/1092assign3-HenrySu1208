@@ -35,24 +35,24 @@ void setup() {
   // Enter your setup code here (please put loadImage() here or your game will lag like crazy)
   bg = loadImage("bg.jpg");
   title = loadImage("title.jpg");
-  gameover = loadImage("gameover.jpg");
-  startNormal = loadImage("startNormal.png");
-  startHovered = loadImage("startHovered.png");
-  restartNormal = loadImage("restartNormal.png");
-  restartHovered = loadImage("restartHovered.png");
-  life = loadImage("life.png");
-  soil0 = loadImage("soil0.png");
-  soil1 = loadImage("soil1.png");
-  soil2 = loadImage("soil2.png");
-  soil3 = loadImage("soil3.png");
-  soil4 = loadImage("soil4.png");
-  soil5 = loadImage("soil5.png");
-  stone1 = loadImage("stone1.png");
-  stone2 = loadImage("stone2.png");
-  groundhog = loadImage("groundhogIdle.png");
-  groundhogDown = loadImage("groundhogDown.png");
-  groundhogLeft = loadImage("groundhogLeft.png");
-  groundhogRight = loadImage("groundhogRight.png");
+  gameover = loadImage("img/gameover.jpg");
+  startNormal = loadImage("img/startNormal.png");
+  startHovered = loadImage("img/startHovered.png");
+  restartNormal = loadImage("img/restartNormal.png");
+  restartHovered = loadImage("img/restartHovered.png");
+  life = loadImage("img/life.png");
+  soil0 = loadImage("img/soil0.png");
+  soil1 = loadImage("img/soil1.png");
+  soil2 = loadImage("img/soil2.png");
+  soil3 = loadImage("img/soil3.png");
+  soil4 = loadImage("img/soil4.png");
+  soil5 = loadImage("img/soil5.png");
+  stone1 = loadImage("img/stone1.png");
+  stone2 = loadImage("img/stone2.png");
+  groundhog = loadImage("img/groundhogIdle.png");
+  groundhogDown = loadImage("img/groundhogDown.png");
+  groundhogLeft = loadImage("img/groundhogLeft.png");
+  groundhogRight = loadImage("img/groundhogRight.png");
 }
 
 void draw() {
